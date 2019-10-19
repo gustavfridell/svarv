@@ -1,0 +1,25 @@
+body {
+    box-sizing: border-box;
+    margin: 0px;
+    padding: 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    font-family: sans-serif;
+}
+
+#artwork-container {
+    box-shadow: 0 19px 38px rgba(0,0,0,0.30), 0 15px 12px rgba(0,0,0,0.22);
+    font-size: 0;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+#artwork-container img {
+    width: 400px;
+}
+
+#info-container {
+    margin-left: 60px;
+}
