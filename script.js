@@ -6,6 +6,7 @@ const state = {
     tracks: null,
     numberOfTracks: null,
     trackIndex: 0,
+    overHourLongTrack: false,
     elements: {
         playButton: document.querySelector('#play-button'),
         playButtonIcon: document.querySelector('#play-button i'),
@@ -13,6 +14,8 @@ const state = {
         nextButton: document.querySelector('#next-button'),
         artwork: document.querySelector('#artwork'),
         title: document.querySelector('#title'),
+        elapsedTime: document.querySelector('#elapsed-time'),
+        totalTime: document.querySelector('#total-time'),
         progress: document.querySelector('#progress')
     }
 }
@@ -27,6 +30,19 @@ const shuffleArray = a => {
     return a
 }
 
+const getTimestamp = time => {
+    const seconds = Math.floor(time / 1000) % 60
+    const minutes = Math.floor(time / (1000 * 60)) % 60
+    const hours = Math.floor(time / (1000 * 60 * 60))
+
+    const timestamp =
+        (state.overHourLongTrack ? ((hours ? hours : '0') + ':') : '') +
+        (minutes < 10 ? (minutes < 1 ? '00' : '0' + minutes) : minutes) + ':' +
+        (seconds < 10 ? (seconds < 1 ? '00' : '0' + seconds) : seconds)
+
+    return timestamp
+}
+
 const startStream = index => {
     const track = state.tracks[index]
 
@@ -37,6 +53,7 @@ const startStream = index => {
         state.player = player
         state.player.play()
         state.player.on('time', elapsedDuration => {
+            state.elements.elapsedTime.innerText = getTimestamp(elapsedDuration)
             state.elements.progress.style.width = `${100 * elapsedDuration / track.duration}%`
         })
     })
@@ -46,6 +63,9 @@ const displayTrackInfo = index => {
     const track = state.tracks[index]
     const { artwork_url, title } = track
     const artworkUrl = `${artwork_url.substring(0, artwork_url.length - 9)}t500x500.jpg`
+    state.overHourLongTrack = track.duration >= 3600000
+    const totalTime = getTimestamp(track.duration)
+    const elapsedTime = getTimestamp(0)
 
     Vibrant.from(artworkUrl).getPalette((err, palette) => {
         const progressColor = `rgba(${palette.Vibrant.rgb[0]}, ${palette.Vibrant.rgb[1]}, ${palette.Vibrant.rgb[2]}, 0.6)`
@@ -59,6 +79,8 @@ const displayTrackInfo = index => {
 
     state.elements.artwork.src = artworkUrl
     state.elements.title.innerText = title
+    state.elements.elapsedTime.innerText = elapsedTime
+    state.elements.totalTime.innerText = totalTime
 }
 
 const togglePlayIcon = toPlay => {
