@@ -7,6 +7,18 @@ body {
     align-items: center;
     min-height: 100vh;
     font-family: sans-serif;
+    flex-direction: column;
+}
+
+@media (min-width: 1000px) {
+    body {
+        flex-direction: row;
+    }
+
+    #info-container {
+        margin-left: 60px;
+        margin-top: 0;
+    }
 }
 
 #artwork-container {
@@ -14,6 +26,7 @@ body {
     font-size: 0;
     border-radius: 4px;
     overflow: hidden;
+    flex-shrink: 0;
 }
 
 #artwork-container img {
@@ -21,5 +34,5 @@ body {
 }
 
 #info-container {
-    margin-left: 60px;
+    margin-top: 30px;
 }
