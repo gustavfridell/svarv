@@ -1,3 +1,5 @@
+import 'vanilla-tilt'
+
 const state = {
     player: null,
     tracks: null,
@@ -14,18 +16,14 @@ const state = {
     }
 }
 
-const shuffleArray = array =>  {
-  let currentIndex = array.length, temporaryValue, randomIndex
-
-  while (0 !== currentIndex) {
-    randomIndex = Math.floor(Math.random() * currentIndex)
-    currentIndex -= 1
-    temporaryValue = array[currentIndex]
-    array[currentIndex] = array[randomIndex]
-    array[randomIndex] = temporaryValue
-  }
-
-  return array
+const shuffleArray = a => {
+    for (let i = a.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1))
+        const temp = a[i]
+        a[i] = a[j]
+        a[j] = temp
+    }
+    return a
 }
 
 const startStream = index => {

@@ -1,0 +1,22 @@
+{
+  "name": "svarv",
+  "version": "1.0.0",
+  "description": "",
+  "main": "script.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gustavfridell/svarv.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/gustavfridell/svarv/issues"
+  },
+  "homepage": "https://github.com/gustavfridell/svarv#readme",
+  "dependencies": {
+    "vanilla-tilt": "^1.7.0"
+  }
+}
