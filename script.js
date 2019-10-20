@@ -4,7 +4,8 @@ const state = {
     numberOfTracks: null,
     trackIndex: 0,
     playButton: document.querySelector('#play-button'),
-    playButtonIcon: document.querySelector('#play-button i')
+    playButtonIcon: document.querySelector('#play-button i'),
+    artwork: document.querySelector('#artwork')
 }
 
 const shuffleArray = array =>  {
@@ -22,20 +23,15 @@ const shuffleArray = array =>  {
 }
 
 const displayArtwork = url => {
-    const artworkContainer = document.querySelector('#artwork-container')
-    const artworkElement = document.createElement('img')
-    artworkElement.src = url
-    artworkContainer.appendChild(artworkElement)
+    artwork.src = url
 }
 
 const displayInfo = (artist, title) => {
-    const infoContainer = document.querySelector('#info-container')
-    const artistElement = document.createElement('span')
-    const titleElement = document.createElement('h1')
+    const infoContainer = document.querySelector('#info')
+    const titleElement = infoContainer.querySelector('#title')
+    const artistElement = infoContainer.querySelector('#artist')
     artistElement.innerText = artist
     titleElement.innerText = title
-    infoContainer.appendChild(titleElement)
-    infoContainer.appendChild(artistElement)
 }
 
 const playTrack = index => {

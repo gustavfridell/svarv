@@ -7,14 +7,27 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div id="artwork-container"></div>
-    <div id="info-container">
-        <button id="play-button">
-            <i class="fas fa-pause"></i>
-        </button>
+    <img id="artwork" data-tilt data-tilt-max="5" data-tilt-perspective="2000">
+    <div id="controls-container">
+        <div id="info">
+            <h1 id="title"></h1>
+            <span id="artist"></span>
+        </div>
+        <div id="controls">
+            <button id="prev-button" class="controls-button">
+                <i class="fas fa-backward"></i>
+            </button>
+            <button id="play-button" class="controls-button">
+                <i class="fas fa-pause"></i>
+            </button>
+            <button id="next-button" class="controls-button">
+                <i class="fas fa-forward"></i>
+            </button>
+        </div>
     </div>
     <script src="https://kit.fontawesome.com/17a6504299.js" crossorigin="anonymous"></script>
     <script src="https://connect.soundcloud.com/sdk/sdk-3.3.2.js"></script>
+    <script src="vanilla-tilt.min.js"></script>
     <script src="script.js"></script>
 </body>
 </html>

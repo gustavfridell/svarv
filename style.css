@@ -15,31 +15,32 @@ body {
         flex-direction: row;
     }
 
-    #info-container {
+    #controls-container {
         margin-left: 60px;
         margin-top: 0;
     }
 }
 
-#artwork-container {
+#artwork {
     box-shadow: 0 19px 38px rgba(0,0,0,0.30), 0 15px 12px rgba(0,0,0,0.22);
-    font-size: 0;
     border-radius: 4px;
     overflow: hidden;
     flex-shrink: 0;
-}
-
-#artwork-container img {
     width: 400px;
 }
 
-#info-container {
+#controls-container {
     margin-top: 30px;
 }
 
-#play-button {
-    width: 72px;
-    height: 72px;
+#controls {
+    margin-top: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.controls-button {
     border: none;
     background: #000;
     border-radius: 50%;
@@ -47,8 +48,25 @@ body {
     outline: none;
 }
 
-#play-button i {
+.controls-button:hover {
+    background: #333;
+}
+
+.controls-button:active {
+    background: #555;
+}
+
+.controls-button i {
     color: #fff;
+}
+
+#play-button {
+    width: 72px;
+    height: 72px;
+    margin: 0 24px;
+}
+
+#play-button i {
     font-size: 36px;
 }
 
@@ -56,10 +74,19 @@ body {
     margin-left: 10%;
 }
 
-#play-button:hover {
-    background: #333;
+#prev-button, #next-button {
+    width: 56px;
+    height: 56px;
 }
 
-#play-button:active {
-    background: #555;
+#prev-button i, #next-button i {
+    font-size: 24px;
+}
+
+#prev-button i {
+    margin-right: 10%;
+}
+
+#next-button i {
+    margin-left: 10%;
 }
