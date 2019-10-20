@@ -36,3 +36,30 @@ body {
 #info-container {
     margin-top: 30px;
 }
+
+#play-button {
+    width: 72px;
+    height: 72px;
+    border: none;
+    background: #000;
+    border-radius: 50%;
+    cursor: pointer;
+    outline: none;
+}
+
+#play-button i {
+    color: #fff;
+    font-size: 36px;
+}
+
+#play-button i.fa-play {
+    margin-left: 10%;
+}
+
+#play-button:hover {
+    background: #333;
+}
+
+#play-button:active {
+    background: #555;
+}

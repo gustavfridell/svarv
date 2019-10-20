@@ -2,7 +2,9 @@ const state = {
     player: null,
     tracks: null,
     numberOfTracks: null,
-    trackIndex: 0
+    trackIndex: 0,
+    playButton: document.querySelector('#play-button'),
+    playButtonIcon: document.querySelector('#play-button i')
 }
 
 const shuffleArray = array =>  {
@@ -38,7 +40,7 @@ const displayInfo = (artist, title) => {
 
 const playTrack = index => {
     const track = state.tracks[index]
-    const { artwork_url, title, user } = track
+    const { artwork_url, title, user, id } = track
     const artworkUrl = `${artwork_url.substring(0, artwork_url.length - 9)}t500x500.jpg`
     const artist = user.username
 
@@ -46,13 +48,29 @@ const playTrack = index => {
     displayInfo(artist, title)
 
     SC.stream(`/tracks/${id}`).then(player => {
-        player.play().then(() => {
+        state.player = player
+
+        state.player.play().then(() => {
             console.log('ok')
         }).catch(e => {
             console.log('nä', e)
             console.dir(e)
         })
     })
+}
+
+const playButtonOnclickHandler = () => {
+    const { classList } = state.playButtonIcon
+
+    if (state.player.isPlaying()) {
+        classList.remove('fa-pause')
+        classList.add('fa-play')
+        state.player.pause()
+    } else {
+        classList.remove('fa-play')
+        classList.add('fa-pause')
+        state.player.play()
+    }
 }
 
 const initialize = () => {
@@ -70,6 +88,8 @@ const initialize = () => {
 
         playTrack(state.trackIndex)
     })
+
+    state.playButton.addEventListener('click', playButtonOnclickHandler)
 }
 
 initialize()
