@@ -13,7 +13,7 @@ const state = {
         nextButton: document.querySelector('#next-button'),
         artwork: document.querySelector('#artwork'),
         title: document.querySelector('#title'),
-        artist: document.querySelector('#artist')
+        progress: document.querySelector('#progress')
     }
 }
 
@@ -30,28 +30,34 @@ const shuffleArray = a => {
 const startStream = index => {
     const track = state.tracks[index]
 
+    state.player && state.player.kill()
+    state.elements.progress.style.width = '0'
+
     SC.stream(`/tracks/${track.id}`).then(player => {
         state.player = player
         state.player.play()
+        state.player.on('time', elapsedDuration => {
+            state.elements.progress.style.width = `${100 * elapsedDuration / track.duration}%`
+        })
     })
 }
 
 const displayTrackInfo = index => {
     const track = state.tracks[index]
-    const { artwork_url, title, user, id } = track
+    const { artwork_url, title } = track
     const artworkUrl = `${artwork_url.substring(0, artwork_url.length - 9)}t500x500.jpg`
-    const artist = user.username
 
     Vibrant.from(artworkUrl).getPalette((err, palette) => {
-        const colors = [
+        const progressColor = `rgba(${palette.Vibrant.rgb[0]}, ${palette.Vibrant.rgb[1]}, ${palette.Vibrant.rgb[2]}, 0.6)`
+        const gradientColors = [
             `rgba(${palette.LightMuted.rgb[0]}, ${palette.LightMuted.rgb[1]}, ${palette.LightMuted.rgb[2]}, 0.35)`,
             `rgba(${palette.LightVibrant.rgb[0]}, ${palette.LightVibrant.rgb[1]}, ${palette.LightVibrant.rgb[2]}, 0.35)`
         ]
-        document.body.style.background = `linear-gradient(135deg, ${colors[0]}, ${colors[1]})`
+        state.elements.progress.style.background = progressColor
+        document.body.style.background = `linear-gradient(135deg, ${gradientColors[0]}, ${gradientColors[1]})`
     })
 
     state.elements.artwork.src = artworkUrl
-    // state.elements.artist.innerText = artist
     state.elements.title.innerText = title
 }
 
