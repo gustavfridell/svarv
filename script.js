@@ -5,6 +5,8 @@ const state = {
     trackIndex: 0,
     playButton: document.querySelector('#play-button'),
     playButtonIcon: document.querySelector('#play-button i'),
+    prevButton: document.querySelector('#prev-button'),
+    nextButton: document.querySelector('#next-button'),
     artwork: document.querySelector('#artwork')
 }
 
@@ -69,6 +71,19 @@ const playButtonOnclickHandler = () => {
     }
 }
 
+const changeTrack = amount => {
+    let { trackIndex, numberOfTracks } = state
+    trackIndex += amount
+    if (trackIndex < 0) {
+        trackIndex = numberOfTracks - 1
+    } else if (trackIndex > numberOfTracks - 1) {
+        trackIndex = 0
+    }
+    state.trackIndex = trackIndex
+
+    playTrack(trackIndex)
+}
+
 const initialize = () => {
     SC.initialize({
         client_id: '92xES1HxxuvjgmOoRMBswPvm6IaGGaQq'
@@ -86,6 +101,8 @@ const initialize = () => {
     })
 
     state.playButton.addEventListener('click', playButtonOnclickHandler)
+    state.prevButton.addEventListener('click', () => changeTrack(-1))
+    state.nextButton.addEventListener('click', () => changeTrack(+1))
 }
 
 initialize()
