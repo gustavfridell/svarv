@@ -44,7 +44,7 @@ const displayTrackInfo = index => {
     const artist = user.username
 
     state.elements.artwork.src = artworkUrl
-    state.elements.artist.innerText = artist
+    // state.elements.artist.innerText = artist
     state.elements.title.innerText = title
 }
 
