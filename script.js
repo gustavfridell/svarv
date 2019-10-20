@@ -33,13 +33,7 @@ const startStream = index => {
 
     SC.stream(`/tracks/${track.id}`).then(player => {
         state.player = player
-
-        state.player.play().then(() => {
-            state.initiated = true
-        }).catch(e => {
-            console.log('nä', e)
-            console.dir(e)
-        })
+        state.player.play()
     })
 }
 
@@ -54,17 +48,24 @@ const displayTrackInfo = index => {
     state.elements.title.innerText = title
 }
 
-const playButtonOnclickHandler = () => {
+const togglePlayIcon = toPlay => {
     const { classList } = state.elements.playButtonIcon
 
-    if (state.player && state.player.isPlaying()) {
-        classList.remove('fa-pause')
-        classList.add('fa-play')
-        state.player.pause()
-    } else {
+    if (toPlay) {
         classList.remove('fa-play')
         classList.add('fa-pause')
+    } else {
+        classList.remove('fa-pause')
+        classList.add('fa-play')
+    }
+}
 
+const playButtonOnclickHandler = () => {
+    if (state.player && state.player.isPlaying()) {
+        togglePlayIcon(false)
+        state.player.pause()
+    } else {
+        togglePlayIcon(true)
         if (state.player) {
             state.player.play()
         } else {
@@ -84,6 +85,7 @@ const changeTrack = amount => {
     }
     state.trackIndex = trackIndex
 
+    togglePlayIcon(true)
     displayTrackInfo(trackIndex)
     startStream(trackIndex)
 }
