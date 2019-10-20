@@ -1,4 +1,5 @@
 import 'vanilla-tilt'
+import * as Vibrant from 'node-vibrant'
 
 const state = {
     player: null,
@@ -40,6 +41,14 @@ const displayTrackInfo = index => {
     const { artwork_url, title, user, id } = track
     const artworkUrl = `${artwork_url.substring(0, artwork_url.length - 9)}t500x500.jpg`
     const artist = user.username
+
+    Vibrant.from(artworkUrl).getPalette((err, palette) => {
+        const colors = [
+            `rgba(${palette.LightMuted.rgb[0]}, ${palette.LightMuted.rgb[1]}, ${palette.LightMuted.rgb[2]}, 0.35)`,
+            `rgba(${palette.LightVibrant.rgb[0]}, ${palette.LightVibrant.rgb[1]}, ${palette.LightVibrant.rgb[2]}, 0.35)`
+        ]
+        document.body.style.background = `linear-gradient(135deg, ${colors[0]}, ${colors[1]})`
+    })
 
     state.elements.artwork.src = artworkUrl
     // state.elements.artist.innerText = artist
