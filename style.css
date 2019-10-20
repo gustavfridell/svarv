@@ -31,6 +31,8 @@ body {
 
 #controls-container {
     margin-top: 30px;
+    flex: 1;
+    max-width: 600px;
 }
 
 #title {
