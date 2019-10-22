@@ -16,6 +16,7 @@ body {
     }
 
     #controls-container {
+        flex: 1;
         margin-left: 60px;
         margin-top: 0;
     }
@@ -32,7 +33,6 @@ body {
 
 #controls-container {
     margin-top: 30px;
-    flex: 1;
     max-width: 600px;
 }
 
