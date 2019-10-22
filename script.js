@@ -65,6 +65,9 @@ const initializePlayerForTrack = async index => {
                     playButtonPauseIcon.style.display = 'none'
                     playButtonPlayIcon.style.display = 'inline-block'
                     break
+                case 'ended':
+                    changeTrack(+1)
+                    break
             }
         })
         .on('time', elapsedDuration => {
