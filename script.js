@@ -52,11 +52,27 @@ const startStream = index => {
 
     SC.stream(`/tracks/${track.id}`).then(player => {
         state.player = player
-        state.player.play()
-        state.player.on('time', elapsedDuration => {
-            state.elements.elapsedTime.innerText = getTimestamp(elapsedDuration)
-            state.elements.progress.style.width = `${100 * elapsedDuration / track.duration}%`
-        })
+
+        state.player
+            .on('state-change', newState => {
+                const { playButtonPlayIcon, playButtonPauseIcon } = state.elements
+
+                switch (newState) {
+                    case 'playing':
+                        playButtonPlayIcon.style.display = 'none'
+                        playButtonPauseIcon.style.display = 'inline-block'
+                        break
+                    case 'paused':
+                        playButtonPauseIcon.style.display = 'none'
+                        playButtonPlayIcon.style.display = 'inline-block'
+                        break
+                }
+            })
+            .on('time', elapsedDuration => {
+                state.elements.elapsedTime.innerText = getTimestamp(elapsedDuration)
+                state.elements.progress.style.width = `${100 * elapsedDuration / track.duration}%`
+            })
+            .play()
     })
 }
 
@@ -66,7 +82,6 @@ const displayTrackInfo = index => {
     const artworkUrl = `${artwork_url.substring(0, artwork_url.length - 9)}t500x500.jpg`
     state.overHourLongTrack = track.duration >= 3600000
     const totalTime = getTimestamp(track.duration)
-    const elapsedTime = getTimestamp(0)
 
     Vibrant.from(artworkUrl).getPalette((err, palette) => {
         const progressColor = `rgba(${palette.Vibrant.rgb[0]}, ${palette.Vibrant.rgb[1]}, ${palette.Vibrant.rgb[2]}, 0.6)`
@@ -80,34 +95,16 @@ const displayTrackInfo = index => {
 
     state.elements.artwork.src = artworkUrl
     state.elements.title.innerText = title
-    state.elements.elapsedTime.innerText = elapsedTime
+    state.elements.elapsedTime.innerText = getTimestamp(0)
     state.elements.totalTime.innerText = totalTime
 }
 
-const togglePlayIcon = toPlay => {
-    const { playButtonPlayIcon, playButtonPauseIcon } = state.elements
-
-    if (toPlay) {
-        playButtonPlayIcon.style.display = 'none'
-        playButtonPauseIcon.style.display = 'inline-block'
-    } else {
-        playButtonPauseIcon.style.display = 'none'
-        playButtonPlayIcon.style.display = 'inline-block'
-    }
-}
-
 const playButtonOnclickHandler = () => {
-    if (state.player && state.player.isPlaying()) {
-        togglePlayIcon(false)
-        state.player.pause()
-    } else {
-        togglePlayIcon(true)
-        if (state.player) {
-            state.player.play()
-        } else {
-            startStream(state.trackIndex)
-        }
-    }
+    const { player } = state
+
+    if (player) {
+        player.isPlaying() ? player.pause() : player.play()
+    } else startStream(state.trackIndex)
 }
 
 const changeTrack = amount => {
@@ -121,7 +118,6 @@ const changeTrack = amount => {
     }
     state.trackIndex = trackIndex
 
-    togglePlayIcon(true)
     displayTrackInfo(trackIndex)
     startStream(trackIndex)
 }
