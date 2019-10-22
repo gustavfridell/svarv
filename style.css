@@ -39,7 +39,7 @@ body {
 #title {
     margin: 30px 0 0 0;
     text-align: center;
-    opacity: 0.9;
+    opacity: 0.8;
 }
 
 #progress-bar-container {
@@ -84,7 +84,7 @@ body {
     border-radius: 50%;
     cursor: pointer;
     outline: none;
-    opacity: 0.9;
+    opacity: 0.8;
 }
 
 .controls-button:hover {
