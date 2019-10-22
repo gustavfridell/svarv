@@ -18,6 +18,7 @@ const state = {
         title: document.querySelector('#title'),
         elapsedTime: document.querySelector('#elapsed-time'),
         totalTime: document.querySelector('#total-time'),
+        progressBar: document.querySelector("#progress-bar"),
         progress: document.querySelector('#progress')
     }
 }
@@ -122,6 +123,26 @@ const changeTrack = amount => {
     startStream(trackIndex)
 }
 
+const seekInTrack = shareOfTrack => {
+    if (state.player) {
+        const { duration } = state.tracks[state.trackIndex]
+        const timeInTrack = duration * shareOfTrack
+
+        state.elements.progress.style.width = `${100 * shareOfTrack}%`
+        state.elements.elapsedTime.innerText = getTimestamp(timeInTrack)
+        state.player.seek(timeInTrack)
+    }
+}
+
+const progressBarOnclickHandler = e => {
+    const { progressBar } = state.elements
+    const progressBarWidth = progressBar.offsetWidth
+    const progressBarClickPosition = e.clientX - progressBar.getBoundingClientRect().left
+    const shareOfProgressBarClicked = progressBarClickPosition / progressBarWidth
+
+    seekInTrack(shareOfProgressBarClicked)
+}
+
 const initialize = () => {
     SC.initialize({
         client_id: state.clientId
@@ -141,6 +162,7 @@ const initialize = () => {
     state.elements.playButton.addEventListener('click', playButtonOnclickHandler)
     state.elements.prevButton.addEventListener('click', () => changeTrack(-1))
     state.elements.nextButton.addEventListener('click', () => changeTrack(+1))
+    state.elements.progressBar.addEventListener('click', progressBarOnclickHandler)
 }
 
 initialize()
