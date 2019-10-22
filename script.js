@@ -1,3 +1,4 @@
+import 'babel-polyfill'
 import 'vanilla-tilt'
 import * as Vibrant from 'node-vibrant'
 
@@ -46,36 +47,31 @@ const getTimestamp = time => {
     return timestamp
 }
 
-const startStream = index => {
+const initializePlayerForTrack = async index => {
     const track = state.tracks[index]
-
     state.player && state.player.kill()
-    state.elements.progress.style.width = '0'
 
-    SC.stream(`/tracks/${track.id}`).then(player => {
-        state.player = player
+    const newPlayer = (await SC.stream(`/tracks/${track.id}`))
+        .on('state-change', newState => {
+            const { playButtonPlayIcon, playButtonPauseIcon } = state.elements
 
-        state.player
-            .on('state-change', newState => {
-                const { playButtonPlayIcon, playButtonPauseIcon } = state.elements
+            switch (newState) {
+                case 'playing':
+                    playButtonPlayIcon.style.display = 'none'
+                    playButtonPauseIcon.style.display = 'inline-block'
+                    break
+                case 'paused':
+                    playButtonPauseIcon.style.display = 'none'
+                    playButtonPlayIcon.style.display = 'inline-block'
+                    break
+            }
+        })
+        .on('time', elapsedDuration => {
+            state.elements.elapsedTime.innerText = getTimestamp(elapsedDuration)
+            state.elements.progress.style.width = `${100 * elapsedDuration / track.duration}%`
+        })
 
-                switch (newState) {
-                    case 'playing':
-                        playButtonPlayIcon.style.display = 'none'
-                        playButtonPauseIcon.style.display = 'inline-block'
-                        break
-                    case 'paused':
-                        playButtonPauseIcon.style.display = 'none'
-                        playButtonPlayIcon.style.display = 'inline-block'
-                        break
-                }
-            })
-            .on('time', elapsedDuration => {
-                state.elements.elapsedTime.innerText = getTimestamp(elapsedDuration)
-                state.elements.progress.style.width = `${100 * elapsedDuration / track.duration}%`
-            })
-            .play()
-    })
+    state.player = newPlayer
 }
 
 const displayTrackInfo = index => {
@@ -97,18 +93,22 @@ const displayTrackInfo = index => {
     state.elements.title.innerText = title
     state.elements.elapsedTime.innerText = getTimestamp(0)
     state.elements.totalTime.innerText = getTimestamp(duration)
+    state.elements.progress.style.width = '0'
     document.title = 'Svarv - ' + title
 }
 
-const playButtonOnclickHandler = () => {
+const playButtonOnclickHandler = async () => {
     const { player } = state
 
     if (player) {
         player.isPlaying() ? player.pause() : player.play()
-    } else startStream(state.trackIndex)
+    } else {
+        await initializePlayerForTrack(state.trackIndex)
+        state.player.play()
+    }
 }
 
-const changeTrack = amount => {
+const changeTrack = async amount => {
     let { trackIndex, numberOfTracks } = state
 
     trackIndex += amount
@@ -120,7 +120,8 @@ const changeTrack = amount => {
     state.trackIndex = trackIndex
 
     displayTrackInfo(trackIndex)
-    startStream(trackIndex)
+    await initializePlayerForTrack(trackIndex)
+    state.player.play()
 }
 
 const seekInTrack = shareOfTrack => {

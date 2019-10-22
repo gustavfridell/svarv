@@ -17,7 +17,9 @@
   },
   "homepage": "https://github.com/gustavfridell/svarv#readme",
   "dependencies": {
+    "babel-polyfill": "^6.26.0",
     "node-vibrant": "^3.1.4",
     "vanilla-tilt": "^1.7.0"
-  }
+  },
+  "devDependencies": {}
 }
