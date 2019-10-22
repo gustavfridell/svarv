@@ -124,15 +124,14 @@ const changeTrack = async amount => {
     state.player.play()
 }
 
-const seekInTrack = shareOfTrack => {
-    if (state.player) {
+const seekInTrack = async shareOfTrack => {
         const { duration } = state.tracks[state.trackIndex]
         const timeInTrack = duration * shareOfTrack
 
         state.elements.progress.style.width = `${100 * shareOfTrack}%`
         state.elements.elapsedTime.innerText = getTimestamp(timeInTrack)
+        if (!state.player) await initializePlayerForTrack(state.trackIndex)
         state.player.seek(timeInTrack)
-    }
 }
 
 const progressBarOnclickHandler = e => {
