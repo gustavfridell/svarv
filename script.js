@@ -9,7 +9,8 @@ const state = {
     overHourLongTrack: false,
     elements: {
         playButton: document.querySelector('#play-button'),
-        playButtonIcon: document.querySelector('#play-button i'),
+        playButtonPlayIcon: document.querySelector('#play-button .controls-icon[name="play"]'),
+        playButtonPauseIcon: document.querySelector('#play-button .controls-icon[name="pause"]'),
         prevButton: document.querySelector('#prev-button'),
         nextButton: document.querySelector('#next-button'),
         artwork: document.querySelector('#artwork'),
@@ -84,14 +85,14 @@ const displayTrackInfo = index => {
 }
 
 const togglePlayIcon = toPlay => {
-    const { classList } = state.elements.playButtonIcon
+    const { playButtonPlayIcon, playButtonPauseIcon } = state.elements
 
     if (toPlay) {
-        classList.remove('fa-play')
-        classList.add('fa-pause')
+        playButtonPlayIcon.style.display = 'none'
+        playButtonPauseIcon.style.display = 'inline-block'
     } else {
-        classList.remove('fa-pause')
-        classList.add('fa-play')
+        playButtonPauseIcon.style.display = 'none'
+        playButtonPlayIcon.style.display = 'inline-block'
     }
 }
 

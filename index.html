@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Svarv</title>
     <link rel="stylesheet" href="style.css">
+    <script type="module" src="https://unpkg.com/ionicons@4.6.3/dist/ionicons/ionicons.esm.js"></script>
 </head>
 <body>
     <img id="artwork" data-tilt data-tilt-max="5" data-tilt-perspective="2000">
@@ -20,17 +21,17 @@
         </div>
         <div id="controls">
             <button id="prev-button" class="controls-button">
-                <i class="fas fa-backward"></i>
+                <ion-icon class="controls-icon" name="rewind"></ion-icon>
             </button>
             <button id="play-button" class="controls-button">
-                <i class="fas fa-play"></i>
+                <ion-icon class="controls-icon" name="play"></ion-icon>
+                <ion-icon class="controls-icon" name="pause"></ion-icon>
             </button>
             <button id="next-button" class="controls-button">
-                <i class="fas fa-forward"></i>
+                <ion-icon class="controls-icon" name="fastforward"></ion-icon>
             </button>
         </div>
     </div>
-    <script src="https://kit.fontawesome.com/17a6504299.js" crossorigin="anonymous"></script>
     <script src="https://connect.soundcloud.com/sdk/sdk-3.3.2.js"></script>
     <script src="script.js"></script>
 </body>

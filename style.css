@@ -95,7 +95,7 @@ body {
     background: #555;
 }
 
-.controls-button i {
+.controls-icon {
     color: #fff;
 }
 
@@ -105,12 +105,16 @@ body {
     margin: 0 24px;
 }
 
-#play-button i {
-    font-size: 36px;
+#play-button .controls-icon {
+    font-size: 48px;
 }
 
-#play-button i.fa-play {
-    margin-left: 10%;
+#play-button .controls-icon[name="play"] {
+    margin-left: 14%;
+}
+
+#play-button .controls-icon[name="pause"] {
+    display: none;
 }
 
 #prev-button, #next-button {
@@ -118,14 +122,14 @@ body {
     height: 56px;
 }
 
-#prev-button i, #next-button i {
-    font-size: 24px;
+#prev-button .controls-icon, #next-button .controls-icon {
+    font-size: 32px;
 }
 
-#prev-button i {
+#prev-button .controls-icon {
     margin-right: 10%;
 }
 
-#next-button i {
+#next-button .controls-icon {
     margin-left: 10%;
 }
