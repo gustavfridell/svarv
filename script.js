@@ -4,6 +4,7 @@ import * as Vibrant from 'node-vibrant'
 
 const state = {
     clientId: '92xES1HxxuvjgmOoRMBswPvm6IaGGaQq',
+    playlistId: '879162766',
     player: null,
     tracks: null,
     numberOfTracks: null,
@@ -97,15 +98,9 @@ const displayTrackInfo = index => {
     document.title = 'Svarv - ' + title
 }
 
-const playButtonOnclickHandler = async () => {
+const playButtonOnclickHandler = () => {
     const { player } = state
-
-    if (player) {
-        player.isPlaying() ? player.pause() : player.play()
-    } else {
-        await initializePlayerForTrack(state.trackIndex)
-        state.player.play()
-    }
+    player.isPlaying() ? player.pause() : player.play()
 }
 
 const changeTrack = async amount => {
@@ -130,7 +125,6 @@ const seekInTrack = async shareOfTrack => {
 
         state.elements.progress.style.width = `${100 * shareOfTrack}%`
         state.elements.elapsedTime.innerText = getTimestamp(timeInTrack)
-        if (!state.player) await initializePlayerForTrack(state.trackIndex)
         state.player.seek(timeInTrack)
 }
 
@@ -143,21 +137,17 @@ const progressBarOnclickHandler = e => {
     seekInTrack(shareOfProgressBarClicked)
 }
 
-const initialize = () => {
+const initialize = async () => {
     SC.initialize({
         client_id: state.clientId
     })
 
-    SC.get('/playlists/879162766').then(playlist => {
-        const { track_count, tracks } = playlist
+    const { tracks, track_count } = await SC.get(`/playlists/${state.playlistId}`)
+    state.tracks = shuffleArray(tracks)
+    state.numberOfTracks = track_count
 
-        Object.assign(state, {
-            tracks: shuffleArray(tracks),
-            numberOfTracks: track_count
-        })
-
-        displayTrackInfo(state.trackIndex)
-    })
+    displayTrackInfo(state.trackIndex)
+    await initializePlayerForTrack(state.trackIndex)
 
     state.elements.playButton.addEventListener('click', playButtonOnclickHandler)
     state.elements.prevButton.addEventListener('click', () => changeTrack(-1))
