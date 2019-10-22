@@ -77,11 +77,10 @@ const startStream = index => {
 }
 
 const displayTrackInfo = index => {
-    const track = state.tracks[index]
-    const { artwork_url, title } = track
+    const { artwork_url, title, duration } = state.tracks[index]
     const artworkUrl = `${artwork_url.substring(0, artwork_url.length - 9)}t500x500.jpg`
-    state.overHourLongTrack = track.duration >= 3600000
-    const totalTime = getTimestamp(track.duration)
+    state.overHourLongTrack = duration >= 3600000
+    const totalTime = getTimestamp(duration)
 
     Vibrant.from(artworkUrl).getPalette((err, palette) => {
         const progressColor = `rgba(${palette.Vibrant.rgb[0]}, ${palette.Vibrant.rgb[1]}, ${palette.Vibrant.rgb[2]}, 0.6)`
@@ -97,6 +96,7 @@ const displayTrackInfo = index => {
     state.elements.title.innerText = title
     state.elements.elapsedTime.innerText = getTimestamp(0)
     state.elements.totalTime.innerText = totalTime
+    document.title = 'Svarv - ' + title
 }
 
 const playButtonOnclickHandler = () => {
