@@ -2,6 +2,7 @@ import 'vanilla-tilt'
 import * as Vibrant from 'node-vibrant'
 
 const state = {
+    clientId: '92xES1HxxuvjgmOoRMBswPvm6IaGGaQq',
     player: null,
     tracks: null,
     numberOfTracks: null,
@@ -124,7 +125,7 @@ const changeTrack = amount => {
 
 const initialize = () => {
     SC.initialize({
-        client_id: '92xES1HxxuvjgmOoRMBswPvm6IaGGaQq'
+        client_id: state.clientId
     })
 
     SC.get('/playlists/879162766').then(playlist => {
