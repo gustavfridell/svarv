@@ -87,6 +87,7 @@ body {
     cursor: pointer;
     outline: none;
     opacity: 0.8;
+    padding: 0;
 }
 
 .controls-button:hover {
@@ -112,7 +113,7 @@ body {
 }
 
 #play-button .controls-icon[name="play"] {
-    margin-left: 14%;
+    margin-left: 8px;
 }
 
 #play-button .controls-icon[name="pause"] {
@@ -129,9 +130,9 @@ body {
 }
 
 #prev-button .controls-icon {
-    margin-right: 10%;
+    margin-right: 4px;
 }
 
 #next-button .controls-icon {
-    margin-left: 10%;
+    margin-left: 4px;
 }
