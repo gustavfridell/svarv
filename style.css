@@ -20,6 +20,10 @@ body {
         margin-left: 60px;
         margin-top: 0;
     }
+
+    h1#title {
+        font-size: 2em;
+    }
 }
 
 #artwork {
@@ -40,6 +44,7 @@ body {
     margin: 0;
     text-align: center;
     opacity: 0.8;
+    font-size: 1.4em;
 }
 
 #progress-bar-container {
@@ -50,7 +55,7 @@ body {
 
 #elapsed-time, #total-time {
     width: 46px;
-    font-size: 14px;
+    font-size: 0.9em;
     opacity: 0.7;
 }
 
