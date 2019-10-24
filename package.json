@@ -5,7 +5,7 @@
   "main": "script.js",
   "scripts": {
     "start": "parcel index.html",
-    "build": "parcel build index.html --public-url /svarv"
+    "build": "rm -rf dist/ && parcel build index.html --public-url /svarv"
   },
   "repository": {
     "type": "git",
@@ -22,5 +22,7 @@
     "node-vibrant": "^3.1.4",
     "vanilla-tilt": "^1.7.0"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "cssnano": "^4.1.10"
+  }
 }
