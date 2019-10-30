@@ -140,6 +140,20 @@ const progressBarOnclickHandler = e => {
     seekInTrack(shareOfProgressBarClicked)
 }
 
+const keypressHandler = e => {
+    switch (e.code) {
+        case 'ArrowRight':
+            changeTrack(1)
+            break
+        case 'ArrowLeft':
+            changeTrack(-1)
+            break
+        case 'Space':
+            playButtonOnclickHandler()
+            break
+    }
+}
+
 const initialize = async () => {
     SC.initialize({
         client_id: state.clientId
@@ -156,6 +170,7 @@ const initialize = async () => {
     state.elements.prevButton.addEventListener('click', () => changeTrack(-1))
     state.elements.nextButton.addEventListener('click', () => changeTrack(+1))
     state.elements.progressBar.addEventListener('click', progressBarOnclickHandler)
+    document.addEventListener('keyup', keypressHandler)
 }
 
 initialize()
