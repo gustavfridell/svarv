@@ -2,6 +2,8 @@ import 'babel-polyfill'
 import 'vanilla-tilt'
 import * as Vibrant from 'node-vibrant'
 
+import { NEXT, PREV } from './assets/constants.js'
+
 const state = {
     clientId: '92xES1HxxuvjgmOoRMBswPvm6IaGGaQq',
     playlistId: '879162766',
@@ -66,7 +68,7 @@ const initializePlayerForTrack = async index => {
                     playButtonPlayIcon.style.display = 'inline-block'
                     break
                 case 'ended':
-                    changeTrack(+1)
+                    changeTrack(NEXT)
                     break
             }
         })
@@ -143,10 +145,10 @@ const progressBarOnclickHandler = e => {
 const keypressHandler = e => {
     switch (e.code) {
         case 'ArrowRight':
-            changeTrack(1)
+            changeTrack(NEXT)
             break
         case 'ArrowLeft':
-            changeTrack(-1)
+            changeTrack(PREV)
             break
         case 'Space':
             playButtonOnclickHandler()
@@ -167,8 +169,8 @@ const initialize = async () => {
     await initializePlayerForTrack(state.trackIndex)
 
     state.elements.playButton.addEventListener('click', playButtonOnclickHandler)
-    state.elements.prevButton.addEventListener('click', () => changeTrack(-1))
-    state.elements.nextButton.addEventListener('click', () => changeTrack(+1))
+    state.elements.prevButton.addEventListener('click', () => changeTrack(PREV))
+    state.elements.nextButton.addEventListener('click', () => changeTrack(NEXT))
     state.elements.progressBar.addEventListener('click', progressBarOnclickHandler)
     document.addEventListener('keyup', keypressHandler)
 }
