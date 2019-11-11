@@ -1,12 +1,16 @@
 import 'babel-polyfill'
 import 'vanilla-tilt'
 import * as Vibrant from 'node-vibrant'
-
-import { NEXT, PREV } from './assets/constants.js'
+import {
+    NEXT_TRACK,
+    PREV_TRACK,
+    DEFAULT_CLIENT_ID,
+    DEFAULT_PLAYLIST_ID
+} from './constants.js'
 
 const state = {
-    clientId: '92xES1HxxuvjgmOoRMBswPvm6IaGGaQq',
-    playlistId: '879162766',
+    clientId: DEFAULT_CLIENT_ID,
+    playlistId: DEFAULT_PLAYLIST_ID,
     player: null,
     tracks: null,
     numberOfTracks: null,
@@ -103,13 +107,22 @@ const displayTrackInfo = index => {
     document.title = 'Svarv - ' + title
 }
 
-const playButtonOnclickHandler = () => {
-    const { player } = state
+const togglePlaying = () => {
+    const {
+        player,
+        elements
+    } = state
+
     player.isPlaying() ? player.pause() : player.play()
+    elements.playButton.blur()
 }
 
 const changeTrack = async amount => {
-    let { trackIndex, numberOfTracks } = state
+    let {
+        trackIndex,
+        numberOfTracks,
+        elements
+    } = state
 
     trackIndex += amount
     if (trackIndex < 0) {
@@ -122,6 +135,8 @@ const changeTrack = async amount => {
     displayTrackInfo(trackIndex)
     await initializePlayerForTrack(trackIndex)
     state.player.play()
+    elements.prevButton.blur()
+    elements.nextButton.blur()
 }
 
 const seekInTrack = async shareOfTrack => {
@@ -143,15 +158,17 @@ const progressBarOnclickHandler = e => {
 }
 
 const keypressHandler = e => {
+    e.preventDefault()
+
     switch (e.code) {
         case 'ArrowRight':
-            changeTrack(NEXT)
+            changeTrack(NEXT_TRACK)
             break
         case 'ArrowLeft':
-            changeTrack(PREV)
+            changeTrack(PREV_TRACK)
             break
         case 'Space':
-            playButtonOnclickHandler()
+            togglePlaying()
             break
     }
 }
@@ -168,9 +185,9 @@ const initialize = async () => {
     displayTrackInfo(state.trackIndex)
     await initializePlayerForTrack(state.trackIndex)
 
-    state.elements.playButton.addEventListener('click', playButtonOnclickHandler)
-    state.elements.prevButton.addEventListener('click', () => changeTrack(PREV))
-    state.elements.nextButton.addEventListener('click', () => changeTrack(NEXT))
+    state.elements.playButton.addEventListener('click', togglePlaying)
+    state.elements.prevButton.addEventListener('click', () => changeTrack(PREV_TRACK))
+    state.elements.nextButton.addEventListener('click', () => changeTrack(NEXT_TRACK))
     state.elements.progressBar.addEventListener('click', progressBarOnclickHandler)
     document.addEventListener('keyup', keypressHandler)
 }
