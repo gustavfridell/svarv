@@ -173,6 +173,7 @@ const initialize = async () => {
     state.elements.nextButton.addEventListener('click', () => changeTrack(NEXT))
     state.elements.progressBar.addEventListener('click', progressBarOnclickHandler)
     document.addEventListener('keyup', keypressHandler)
+    document.addEventListener('keydown', e => e.preventDefault())
 }
 
 initialize()
