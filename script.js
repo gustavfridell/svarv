@@ -72,7 +72,7 @@ const initializePlayerForTrack = async index => {
                     playButtonPlayIcon.style.display = 'inline-block'
                     break
                 case 'ended':
-                    changeTrack(NEXT)
+                    changeTrack(NEXT_TRACK)
                     break
             }
         })
